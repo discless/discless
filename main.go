@@ -13,5 +13,5 @@ func main()  {
 	botHandler := http.HandlerFunc(api.NewBot)
 	http.Handle("/function", functionHandler)
 	http.Handle("/bot", botHandler)
-	http.ListenAndServe("localhost:6969", nil)
+	http.ListenAndServe(":8080", nil)
 }
