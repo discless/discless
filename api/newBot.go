@@ -6,32 +6,32 @@ import (
 	"github.com/bwmarrin/discordgo"
 	"github.com/discless/discless/dispatcher"
 	"github.com/discless/discless/types"
+	"github.com/discless/discless/types/config"
 	"net/http"
 	"strings"
 )
 
 func NewBot(w http.ResponseWriter, r *http.Request)  {
-	bot := &types.Self{}
+	botc := &config.Bot{}
 
-	err := json.NewDecoder(r.Body).Decode(bot)
+	err := json.NewDecoder(r.Body).Decode(botc)
 	if err != nil {
 		panic(err)
 	}
 	r.Body.Close()
-	fmt.Println("New bot:",bot.Name)
+	fmt.Println("New bot:",botc.Name)
 
-	token := strings.Replace(r.Header.Get("Authorization"),"Bearer ","",1)
-	//fmt.Println(token)
+	token := botc.Token
 	ses, err := discordgo.New("Bot "+token)
 
 	if err != nil {
 		panic(err)
 	}
-	bot = &types.Self{
+	bot := &types.Self{
 		//Id:			ses.State.User.ID,
-		Name:     	bot.Name,
+		Name:     	botc.Name,
 		Bot:      	ses,
-		Prefix:   	bot.Prefix,
+		Prefix:   	botc.Prefix,
 		Commands: 	make(map[string]*types.Command),
 	}
 
