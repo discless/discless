@@ -64,8 +64,22 @@ Succesfully uploaded the <function name> command
 ```
 
 ## 📝 Features
-|🔐| All API calls are secured by TLS |
-|---|---|
-|🧠| Simple and intuitive Comand Line Interface |
-|   |   |
-|   |   |
+
+🔐 All API calls are secured by TLS </br>
+🧠 Simple and intuitive Command Line Interface </br>
+💨 Fast and easy to manage Discord applications
+
+## 🗺️ Roadmap
+
+- [x] SSL encryption
+- [x] Secret configuration
+- [x] Deployable commands and bots 
+- [ ] Support all Discord events
+- [ ] Recursive command deployment
+- [ ] Integrate databases </br>
+  </br>
+  _More coming soon..._
+  
+## 📕 License
+
+**[MIT License](https://github.com/discless/discless/blob/main/LICENSE)**
