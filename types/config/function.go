@@ -8,7 +8,8 @@ type Config struct {
 }
 
 type Function struct {
+	Type		string `yaml:"type,omitempty",json:"type,omitempty"`
 	File		string `yaml:"file",json:"file"`
 	Function	string `yaml:"function",json:"function"`
-	Category	string `yamle:"category",json:"category"`
+	Category	string `yamle:"category,omitempty",json:"category,omitempty"`
 }

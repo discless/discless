@@ -1,6 +1,8 @@
 package api
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
@@ -10,6 +12,14 @@ import (
 	"net/http"
 	"strings"
 )
+
+func genBearer(length int) string {
+	b := make([]byte, length)
+	if _, err := rand.Read(b); err != nil {
+		return ""
+	}
+	return hex.EncodeToString(b)
+}
 
 func NewBot(w http.ResponseWriter, r *http.Request)  {
 	botc := &config.Bot{}
@@ -57,4 +67,7 @@ func NewBot(w http.ResponseWriter, r *http.Request)  {
 	dispatcher.Manager[ses.State.User.ID] = bot
 	dispatcher.Manager[ses.State.User.ID].Id = ses.State.User.ID
 
+	bearer := genBearer(12)
+	dispatcher.Sessions[bearer] = bot.Name
+	fmt.Fprint(w,bearer)
 }

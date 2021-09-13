@@ -6,6 +6,6 @@ COPY . .
 RUN go mod tidy
 RUN go build -o /discless main.go
 
-EXPOSE 8080
+EXPOSE 8443
 
 CMD ["/discless"]

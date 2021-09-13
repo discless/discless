@@ -10,13 +10,25 @@ import (
 	"os/exec"
 	"plugin"
 	"strconv"
+	"strings"
 	"time"
 )
 
 func Apply(w http.ResponseWriter, r *http.Request)  {
+	bot := r.FormValue("Bot")
+	auth := strings.SplitN(r.Header.Get("Authorization")," ",2)
+
+	if len(auth) != 2 || auth[0] != "Basic" {
+		http.Error(w, "authorization failed, no authentication provided", http.StatusUnauthorized)
+		return
+	} else if val, ok := dispatcher.Sessions[auth[1]]; !ok || val != bot {
+		http.Error(w, "authorization failed, token doesn't match bot or does not exist", http.StatusUnauthorized)
+		return
+	}
+	
 	err := r.ParseMultipartForm(32 << 20) // maxMemory 32MB
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w,"file is too big",http.StatusBadRequest)
 		return
 	}
 	fmt.Println("New function:",r.FormValue("Name"))
@@ -52,5 +64,5 @@ func Apply(w http.ResponseWriter, r *http.Request)  {
 		Category: "",
 	}
 
-	dispatcher.Manager[r.FormValue("Bot")].Commands[command.Name] = command
+	dispatcher.Manager[bot].Commands[command.Name] = command
 }
